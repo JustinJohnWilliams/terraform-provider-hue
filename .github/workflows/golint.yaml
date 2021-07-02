@@ -3,7 +3,7 @@ name: GoLang Linting
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - '**.go'
       - 'vendor/**'
