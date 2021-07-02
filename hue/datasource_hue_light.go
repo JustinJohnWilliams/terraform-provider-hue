@@ -3,7 +3,6 @@ package hue
 import (
 	"fmt"
 
-	"github.com/amimof/huego"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
@@ -11,7 +10,7 @@ func dataSourceHueLight() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceHueLightRead,
 		Schema: map[string]*schema.Schema{
-			"id": {
+			"light_index": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
@@ -19,13 +18,50 @@ func dataSourceHueLight() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"uniqueid": {
+			"unique_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"model_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"product_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"sw_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
-				Type:     schema.TypeMap,
+				Type:     schema.TypeList,
+				MaxItems: 1,
 				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"hue": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"color_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"on": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"scene": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -33,19 +69,8 @@ func dataSourceHueLight() *schema.Resource {
 
 func dataSourceHueLightRead(d *schema.ResourceData, meta interface{}) error {
 
-	client := meta.(*huego.Bridge)
-	id := d.Get("id").(int)
+	light_index := d.Get("light_index").(int)
+	d.SetId(fmt.Sprint(light_index))
 
-	d.SetId(fmt.Sprint(id))
-
-	light, err := client.GetLight(id)
-	if err != nil {
-		return fmt.Errorf("Error retrieving light: %v", err)
-	}
-
-	d.Set("name", light.Name)
-	d.Set("uniqueid", light.UniqueID)
-	d.Set("state", flattenLightState(light.State))
-
-	return nil
+	return resourceHueLightRead(d, meta)
 }

@@ -15,8 +15,62 @@ func dataSourceHueLights() *schema.Resource {
 			"lights": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeMap,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"light_index": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"unique_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"model_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"product_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"sw_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeList,
+							MaxItems: 1,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"hue": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"color_mode": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"on": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"scene": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+								},
+							},
+						},
+					},
 				},
 			},
 		},
@@ -26,7 +80,7 @@ func dataSourceHueLights() *schema.Resource {
 func dataSourceHueLightsRead(d *schema.ResourceData, meta interface{}) error {
 
 	client := meta.(*huego.Bridge)
-	d.SetId("")
+	d.SetId("lights")
 
 	lights, err := client.GetLights()
 	if err != nil {
