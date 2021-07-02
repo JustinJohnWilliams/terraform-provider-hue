@@ -1,6 +1,13 @@
 ---
 name: Vendor Dependencies Check
 on:
+  push:
+    branches:
+      - master
+    paths:
+      - '**.go'
+      - 'vendor/**'
+      - '.github/workflows/**'
   pull_request:
     types: ['opened', 'synchronize']
     paths:
