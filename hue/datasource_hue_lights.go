@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"github.com/amimof/huego"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func dataSourceHueLights() *schema.Resource {
@@ -43,7 +43,6 @@ func dataSourceHueLights() *schema.Resource {
 						},
 						"state": {
 							Type:     schema.TypeList,
-							MaxItems: 1,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
@@ -90,8 +89,6 @@ func dataSourceHueLightsRead(d *schema.ResourceData, meta interface{}) error {
 	fLights := flattenLights(lights)
 
 	log.Printf("[INFO] found %d lights.", len(lights))
-
-	log.Printf("[INFO] found light name %s.", fLights[0]["name"])
 
 	d.Set("lights", fLights)
 

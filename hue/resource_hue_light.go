@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/amimof/huego"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func resourceHueLight() *schema.Resource {

@@ -3,7 +3,7 @@ package hue
 import (
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func dataSourceHueLight() *schema.Resource {
@@ -36,7 +36,6 @@ func dataSourceHueLight() *schema.Resource {
 			},
 			"state": {
 				Type:     schema.TypeList,
-				MaxItems: 1,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{

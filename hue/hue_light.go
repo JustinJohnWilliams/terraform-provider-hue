@@ -1,6 +1,8 @@
 package hue
 
 import (
+	"sort"
+
 	"github.com/amimof/huego"
 )
 
@@ -24,6 +26,10 @@ func flattenLights(input []huego.Light) []map[string]interface{} {
 			"state":       state,
 		})
 	}
+
+	sort.Slice(lights, func(i, j int) bool {
+		return lights[i]["light_index"].(int) < lights[j]["light_index"].(int)
+	})
 
 	return lights
 }
