@@ -5,12 +5,16 @@ on:
     branches:
       - main
     paths:
+      - 'go.mod'
+      - 'go.sum'
       - '**.go'
       - 'vendor/**'
       - '.github/workflows/**'
   pull_request:
     types: ['opened', 'synchronize']
     paths:
+      - 'go.mod'
+      - 'go.sum'
       - '**.go'
       - 'vendor/**'
       - '.github/workflows/**'
