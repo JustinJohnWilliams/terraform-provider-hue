@@ -8,8 +8,9 @@ import (
 )
 
 type Config struct {
-	Host     string
-	Username string
+	Host             string
+	Username         string
+	terraformVersion string
 }
 
 func (c *Config) Client() (*huego.Bridge, error) {

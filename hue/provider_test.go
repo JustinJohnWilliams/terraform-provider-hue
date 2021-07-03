@@ -17,7 +17,3 @@ func TestAccProvider(t *testing.T) {
 		t.Fatalf("err: %s", err)
 	}
 }
-
-func testAcctPreCheck(t *testing.T) {
-
-}
