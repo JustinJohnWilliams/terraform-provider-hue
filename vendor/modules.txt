@@ -9,8 +9,6 @@ github.com/apparentlymart/go-textseg/textseg
 github.com/apparentlymart/go-textseg/v13/textseg
 # github.com/fatih/color v1.7.0
 github.com/fatih/color
-# github.com/fatih/structs v1.1.0
-## explicit
 # github.com/golang/protobuf v1.4.2
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/protoc-gen-go/descriptor
@@ -55,8 +53,6 @@ github.com/hashicorp/terraform-plugin-go/tfprotov6/internal/tfplugin6
 github.com/hashicorp/terraform-plugin-go/tfprotov6/internal/toproto
 github.com/hashicorp/terraform-plugin-go/tfprotov6/server
 github.com/hashicorp/terraform-plugin-go/tftypes
-# github.com/hashicorp/terraform-plugin-sdk v1.1.0
-## explicit
 # github.com/hashicorp/terraform-plugin-sdk/v2 v2.7.0
 ## explicit
 github.com/hashicorp/terraform-plugin-sdk/v2/diag
