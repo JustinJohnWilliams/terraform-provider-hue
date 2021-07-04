@@ -1,0 +1,21 @@
+---
+name: Docs Check
+on:
+  pull_request:
+    types: ['opened', 'synchronize']
+    paths:
+      - 'docs/**'
+      - '.github/workflows/**'
+
+jobs:
+  docscheck:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.16.3'
+      - run: make tools
+      - run: make docscheck

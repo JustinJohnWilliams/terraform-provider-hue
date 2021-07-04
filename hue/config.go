@@ -20,12 +20,12 @@ func (c *Config) Client() (*huego.Bridge, error) {
 	}
 
 	client := huego.New(c.Host, c.Username)
-	lights, err := client.GetLights()
+	config, err := client.GetConfig()
 	if err != nil {
-		return nil, fmt.Errorf("Provider Error %s", err)
+		return nil, fmt.Errorf("Provider Error, Could not get Hue Bridge configuration: %s", err)
 	}
 
-	log.Printf("[INFO] Found %d lights", len(lights))
+	log.Printf("[INFO] Found Bridge ID: %s", config.BridgeID)
 
 	return client, nil
 }

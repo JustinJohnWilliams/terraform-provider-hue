@@ -9,6 +9,13 @@ build: fmtcheck generate
 fmtcheck:
 	@sh -c "'$(CURDIR)/scripts/gofmtcheck.sh'"
 
+tools:
+	@echo "==> installing required tooling..."
+	go install github.com/bflad/tfproviderdocs@latest
+	go install github.com/client9/misspell/cmd/misspell@latest
+	go install github.com/katbyte/terrafmt@latest
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH || $$GOPATH)/bin v1.32.0
+
 generate:
 	go generate ./...
 
@@ -38,5 +45,21 @@ testacc: fmtcheck
 lint:
 	@golangci-lint run ./...
 
-.PHONY: build fmtcheck test testacc lint generate gencheck depscheck
+tflint:
+	./scripts/run-tflint.sh
 
+docscheck:
+	@echo "==> Checking documentation spelling..."
+	@misspell -error -source=text -i hdinsight,exportfs docs/
+	@misspell -error -source text CHANGELOG.md
+	@echo "==> Checking documentation for errors..."
+	@tfproviderdocs check -require-resource-subcategory \
+		-allowed-resource-subcategories-file docs/allowed-subcategories.txt
+
+tffmtfix:
+	@echo "==> Fixing acceptance test terraform blocks code with terrafmt..."
+	@find hue | egrep "_test.go" | sort | while read f; do terrafmt fmt -f $$f; done
+	@echo "==> Fixing docs terraform blocks code with terrafmt..."
+	@find docs | egrep ".md" | sort | while read f; do terrafmt fmt $$f; done
+
+.PHONY: build fmtcheck test testacc lint generate gencheck depscheck docscheck tflint
